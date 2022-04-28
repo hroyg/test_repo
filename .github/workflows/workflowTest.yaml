@@ -3,7 +3,7 @@ name: Air cicd deploy stage
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
 
