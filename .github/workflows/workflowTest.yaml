@@ -55,5 +55,5 @@ jobs:
             echo "CHECK THIS OUT: ${{ needs.Login_to_Amazon_ECR.outputs.stage_tag }}"
             echo ::set-output name=job::- Job:
             echo ::set-output name=step::- Step:
-            echo ::set-output name=tag::- ${{ needs.Login_to_Amazon_ECR.outputs.stage_tag }}
+            echo ::set-output name=tag::- ${{ needs.Login_to_Amazon_ECR.outputs.pxlt_stage_tag }}
         
