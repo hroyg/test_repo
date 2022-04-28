@@ -28,7 +28,7 @@ jobs:
 
          STAGE_TAG="test"
          echo $STAGE_TAG
-         echo "::set-output name=stage_tag::$STAGE_TAG"
+         echo ::set-output name=stage_tag::$STAGE_TAG
          echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
          echo "STAGE_TAG=${STAGE_TAG}" >> $GITHUB_ENV
         #  for repository in `aws ecr describe-repositories --region us-east-2 | grep repositoryName | awk '{print $2}' |grep air/ | cut -c  1-5 --complement | sed 's/",//g'`
