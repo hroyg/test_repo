@@ -1,0 +1,57 @@
+
+name: Air cicd deploy stage
+
+on:
+  workflow_dispatch
+
+jobs:
+
+  Login_to_Amazon_ECR:
+    runs-on: ubuntu-latest
+    outputs:
+      pxlt_stage_tag: ${{ steps.find-image-in-ecr.outputs.stage_tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+
+      - name: Find image in ECR and Generate stage image tag
+        id: find-image-in-ecr
+        # if: steps.validate-ecr.outcome == 'failure'
+        shell: bash
+        run: |
+
+
+
+
+         STAGE_TAG="test"
+         echo $STAGE_TAG
+         echo "::set-output name=stage_tag::$STAGE_TAG"
+        #  for repository in `aws ecr describe-repositories --region us-east-2 | grep repositoryName | awk '{print $2}' |grep air/ | cut -c  1-5 --complement | sed 's/",//g'`
+        #  do
+        #  echo $repository
+        #  MANIFEST=$(aws ecr batch-get-image --repository-name air/${repository} --image-ids imageTag=latest --region us-east-2  --output json | jq --raw-output --join-output '.images[0].imageManifest')
+        #  aws ecr put-image --repository-name air/${repository} --image-tag ${STAGE_TAG} --region us-east-2  --image-manifest "$MANIFEST"
+        #  docker pull 308125944723.dkr.ecr.us-east-2.amazonaws.com/air/${repository}:${STAGE_TAG}
+        #  done
+        #  docker images
+
+
+  send_notification_job:
+    name: Send notification
+    runs-on: ubuntu-latest
+    needs: Login_to_Amazon_ECR
+    if: always()
+    steps:
+
+    - name: Generate failure msg
+      id: generate-failure-msg
+      shell: bash
+      run: |
+            echo "CHECK THIS OUT: ${{ needs.Login_to_Amazon_ECR.outputs.stage_tag }}"
+            echo ::set-output name=job::- Job:
+            echo ::set-output name=step::- Step:
+            echo ::set-output name=tag::- ${{ needs.Login_to_Amazon_ECR.outputs.stage_tag }}
+        
